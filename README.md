@@ -27,7 +27,7 @@
 
 ### Dashboard
 
-<img width="1240" height="1456" alt="image" src="https://github.com/user-attachments/assets/37900aad-2aca-4405-b3a4-f19e34aece01" />
+<img width="1240" height="1375" alt="image" src="https://github.com/user-attachments/assets/5d3bd2e2-c58f-4a47-a1f4-c8baa625ef7c" />
 
 
 ### Transaction Explorer
