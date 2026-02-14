@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../utils/api';
 import TransactionFilters from './TransactionFilters';
 import TransactionList from './TransactionList';
 import TransactionForm from './TransactionForm';
 import toast from 'react-hot-toast';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, X } from 'lucide-react';
 import './Transactions.css';
 
 const TransactionExplorer = () => {
@@ -13,6 +13,7 @@ const TransactionExplorer = () => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editTransaction, setEditTransaction] = useState(null);
+  const [searchInput, setSearchInput] = useState(''); // Local input state
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -32,6 +33,44 @@ const TransactionExplorer = () => {
     limit: 10,
   });
 
+  // Debounce timer ref
+  const debounceTimer = useRef(null);
+
+  // Debounced search function
+  const debouncedSearch = useCallback((searchValue) => {
+    // Clear existing timer
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    // Set new timer
+    debounceTimer.current = setTimeout(() => {
+      setFilters(prev => ({ ...prev, search: searchValue, page: 1 }));
+    }, 500); // 500ms delay
+  }, []);
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchInput(value);
+    debouncedSearch(value);
+  };
+
+  // Clear search
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setFilters(prev => ({ ...prev, search: '', page: 1 }));
+  };
+
   useEffect(() => {
     fetchTransactions();
   }, [filters]);
@@ -41,7 +80,7 @@ const TransactionExplorer = () => {
     try {
       const params = new URLSearchParams();
       Object.keys(filters).forEach((key) => {
-        if (filters[key]) {
+        if (filters[key] && filters[key] !== 'All') {
           params.append(key, filters[key]);
         }
       });
@@ -54,7 +93,9 @@ const TransactionExplorer = () => {
         totalTransactions: data.totalTransactions,
       });
     } catch (error) {
+      console.error('Fetch error:', error);
       toast.error('Failed to load transactions');
+      setTransactions([]); // Clear transactions on error
     } finally {
       setLoading(false);
     }
@@ -66,6 +107,7 @@ const TransactionExplorer = () => {
 
   const handlePageChange = (page) => {
     setFilters({ ...filters, page });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleEdit = (transaction) => {
@@ -116,10 +158,24 @@ const TransactionExplorer = () => {
         <input
           type="text"
           placeholder="Search transactions..."
-          value={filters.search}
-          onChange={(e) => handleFilterChange({ search: e.target.value })}
+          value={searchInput}
+          onChange={handleSearchChange}
           className="search-input"
         />
+        {searchInput && (
+          <button 
+            className="search-clear-btn" 
+            onClick={handleClearSearch}
+            title="Clear search"
+          >
+            <X size={18} />
+          </button>
+        )}
+        {searchInput && (
+          <span className="search-status">
+            {loading ? 'Searching...' : `Found ${pagination.totalTransactions} results`}
+          </span>
+        )}
       </div>
 
       <TransactionFilters filters={filters} onFilterChange={handleFilterChange} />
@@ -127,6 +183,7 @@ const TransactionExplorer = () => {
       {loading ? (
         <div className="loading-container">
           <div className="spinner"></div>
+          <p className="loading-text">Loading transactions...</p>
         </div>
       ) : (
         <>
