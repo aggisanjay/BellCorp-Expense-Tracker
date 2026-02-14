@@ -20,18 +20,23 @@
 
 <div align="center">
 
+### Login
+
+<img width="1240" height="649" alt="image" src="https://github.com/user-attachments/assets/bdc7c341-bbd7-4c33-9552-d85aa4b3014c" />
+
+
 ### Dashboard
-![Dashboard](https://via.placeholder.com/800x450/1e1e28/6366f1?text=Dashboard+Screenshot)
+
+<img width="1240" height="1456" alt="image" src="https://github.com/user-attachments/assets/37900aad-2aca-4405-b3a4-f19e34aece01" />
+
 
 ### Transaction Explorer
-![Transactions](https://via.placeholder.com/800x450/1e1e28/ec4899?text=Transaction+Explorer)
 
-### Analytics
-![Analytics](https://via.placeholder.com/800x450/1e1e28/14b8a6?text=Category+Breakdown)
+<img width="1240" height="1642" alt="image" src="https://github.com/user-attachments/assets/d85f1325-3b80-4ae1-9c43-5aa5018e0719" />
+
 
 </div>
 
----
 
 ## ✨ Features
 
@@ -433,28 +438,6 @@ bellcorp-expense-tracker/
 
 ---
 
-## 🧪 Testing
-
-### Backend Tests
-```bash
-cd backend
-npm run test-db        # Verify database setup
-```
-
-### Manual Testing Checklist
-- [ ] User registration works
-- [ ] User login works
-- [ ] Dashboard loads with correct data
-- [ ] Can add new transaction
-- [ ] Can edit transaction
-- [ ] Can delete transaction
-- [ ] Search finds correct results
-- [ ] Filters work correctly
-- [ ] Pagination navigates properly
-- [ ] Logout works
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
@@ -485,29 +468,6 @@ Found a bug or have a feature idea?
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👨‍💻 Author
-
-**Your Name**
-
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
-- Portfolio: [yourportfolio.com](https://yourportfolio.com)
-
----
-
-## 🙏 Acknowledgments
-
-- **BellCorp** for the assignment opportunity
-- **Anthropic** for Claude AI assistance
-- **MongoDB** for the excellent NoSQL database
-- **Vercel** & **Render** for free hosting tiers
-- **Lucide** for beautiful icons
-- **Recharts** for data visualization
-- **Framer** for smooth animations
 
 ---
 
