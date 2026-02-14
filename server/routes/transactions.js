@@ -29,12 +29,12 @@ router.get('/', async (req, res) => {
     // Build query
     const query = { user: req.user._id };
 
-    // Search in title and notes
-    if (search) {
-      query.$text = { $search: search };
+    // Search in title and notes (only if search is not empty)
+    if (search && search.trim() !== '') {
+      query.$text = { $search: search.trim() };
     }
 
-    // Filter by category
+    // Filter by category (exclude 'All')
     if (category && category !== 'All') {
       query.category = category;
     }
@@ -86,8 +86,8 @@ router.get('/', async (req, res) => {
       totalTransactions: total,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Transaction fetch error:', error);
+    res.status(500).json({ message: 'Server error while fetching transactions' });
   }
 });
 
@@ -125,7 +125,7 @@ router.get('/stats', async (req, res) => {
     // Get recent transactions
     const recentTransactions = await Transaction.find({ user: req.user._id })
       .sort({ date: -1 })
-      .limit(10);
+      .limit(5);
 
     res.json({
       totalExpenses,
