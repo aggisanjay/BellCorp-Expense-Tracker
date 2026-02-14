@@ -125,7 +125,7 @@ router.get('/stats', async (req, res) => {
     // Get recent transactions
     const recentTransactions = await Transaction.find({ user: req.user._id })
       .sort({ date: -1 })
-      .limit(5);
+      .limit(10);
 
     res.json({
       totalExpenses,
