@@ -182,7 +182,7 @@ const TransactionExplorer = () => {
 
       {loading ? (
         <div className="loading-container">
-          <div className="spinner"></div>
+          
           <p className="loading-text">Loading transactions...</p>
         </div>
       ) : (
